@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.3](https://github.com/jordisassoon/prima-online/compare/v0.1.2...v0.1.3) (2026-03-08)
+
+
+### Bug Fixes
+
+* imports ([fd2a648](https://github.com/jordisassoon/prima-online/commit/fd2a648b630dee142310f29684ac13f11c6f9c58))
+
 ## [0.1.2](https://github.com/jordisassoon/prima-online/compare/v0.1.1...v0.1.2) (2026-03-08)
 
 
