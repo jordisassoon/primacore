@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.1.4](https://github.com/jordisassoon/primacore/compare/v0.1.3...v0.1.4) (2026-03-28)
+
+
+### Features
+
+* added linting and workflow pre-merge ([737fcb8](https://github.com/jordisassoon/primacore/commit/737fcb8f7d7d8b2688cfae17abddbb4888593f45))
+* refactored to core tools, added tests and linting. ([a0f5754](https://github.com/jordisassoon/primacore/commit/a0f575426c9c41d66aa8f89f4ba8f918b7c29468))
+
 ## [0.1.3](https://github.com/jordisassoon/prima-online/compare/v0.1.2...v0.1.3) (2026-03-08)
 
 
