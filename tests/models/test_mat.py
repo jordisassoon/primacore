@@ -1,6 +1,6 @@
 import pytest
 import numpy as np
-from primapy.models.mat import MAT, chord_distance
+from primacore.models.mat import MAT, chord_distance
 
 
 @pytest.fixture

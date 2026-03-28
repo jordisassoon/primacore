@@ -1,4 +1,5 @@
 import numpy as np
+from collections.abc import Iterable
 from sklearn.ensemble import RandomForestRegressor
 
 

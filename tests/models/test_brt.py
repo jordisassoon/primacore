@@ -1,6 +1,6 @@
 import pytest
 import numpy as np
-from primapy.models.brt import BRT
+from primacore.models.brt import BRT
 
 
 @pytest.fixture
