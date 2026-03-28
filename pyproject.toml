@@ -10,6 +10,7 @@ dependencies = [
   "scikit-learn",
   "tqdm",
   "lightgbm",
+  "black",
 ]
 
 [dependency-groups]
