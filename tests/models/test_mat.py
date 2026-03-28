@@ -1,6 +1,6 @@
 import pytest
 import numpy as np
-from primapy.models.brt import BRT
+from primapy.models.mat import MAT, chord_distance
 
 @pytest.fixture
 def sample_data() -> tuple[np.ndarray, np.ndarray, np.ndarray]:
@@ -12,22 +12,21 @@ def sample_data() -> tuple[np.ndarray, np.ndarray, np.ndarray]:
     return X_train, y_train, X_test
 
 def test_initialization_custom_params() -> None:
-    """Test BRT initialization with custom parameters."""
-    brt = BRT(n_estimators=200, verbose=-1)
+    """Test MAT initialization with custom parameters."""
+    mat = MAT(n_neighbors=5, metric=chord_distance)
 
-    assert brt.n_estimators == 200 # Exposed class attribute
-    assert brt.verbose == -1 # Override with **kwargs
-    assert brt.learning_rate == 0.1  # Default value
+    assert mat.n_neighbors == 5
+    assert mat.metric == chord_distance
 
 def test_batch_predict(sample_data: tuple[np.ndarray, np.ndarray, np.ndarray]) -> None:
     """Test batch_predict method."""
     X_train, y_train, X_test = sample_data
 
-    brt = BRT(random_state=42, verbose=-1)
-    brt.fit(X_train, y_train)
+    mat = MAT(n_neighbors=5, metric=chord_distance)
+    mat.fit(X_train, y_train)
 
     iterator = [X_test[i:i+5] for i in range(0, X_test.shape[0], 5)]
-    predictions = brt.batch_predict(iterator)
+    predictions = mat.batch_predict(iterator)
 
     assert predictions.shape == (20,)
     assert isinstance(predictions, np.ndarray)

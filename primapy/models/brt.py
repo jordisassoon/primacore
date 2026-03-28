@@ -1,4 +1,5 @@
 import numpy as np
+from collections.abc import Iterable
 from lightgbm import LGBMRegressor
 
 
@@ -19,7 +20,7 @@ class BRT(LGBMRegressor):
             **kwargs,
         )
 
-    def batch_predict(self, X, iterator):
+    def batch_predict(self, iterator: Iterable[np.ndarray]) -> np.ndarray:
         predictions = []
 
         for batch in iterator:
