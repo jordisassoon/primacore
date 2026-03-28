@@ -2,6 +2,7 @@ import pytest
 import numpy as np
 from primapy.models.mat import MAT, chord_distance
 
+
 @pytest.fixture
 def sample_data() -> tuple[np.ndarray, np.ndarray, np.ndarray]:
     """Generate sample training and test data."""
@@ -11,12 +12,14 @@ def sample_data() -> tuple[np.ndarray, np.ndarray, np.ndarray]:
     X_test = np.random.rand(20, 10)
     return X_train, y_train, X_test
 
+
 def test_initialization_custom_params() -> None:
     """Test MAT initialization with custom parameters."""
     mat = MAT(n_neighbors=5, metric=chord_distance)
 
     assert mat.n_neighbors == 5
     assert mat.metric == chord_distance
+
 
 def test_batch_predict(sample_data: tuple[np.ndarray, np.ndarray, np.ndarray]) -> None:
     """Test batch_predict method."""
@@ -25,7 +28,7 @@ def test_batch_predict(sample_data: tuple[np.ndarray, np.ndarray, np.ndarray]) -
     mat = MAT(n_neighbors=5, metric=chord_distance)
     mat.fit(X_train, y_train)
 
-    iterator = [X_test[i:i+5] for i in range(0, X_test.shape[0], 5)]
+    iterator = [X_test[i : i + 5] for i in range(0, X_test.shape[0], 5)]
     predictions = mat.batch_predict(iterator)
 
     assert predictions.shape == (20,)

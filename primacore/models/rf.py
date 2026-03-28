@@ -10,10 +10,13 @@ class RF(RandomForestRegressor):
 
         # Initialize the parent RandomForestRegressor
         super().__init__(
-            n_estimators=self.n_estimators, max_depth=self.max_depth, random_state=self.random_state, **kwargs
+            n_estimators=self.n_estimators,
+            max_depth=self.max_depth,
+            random_state=self.random_state,
+            **kwargs,
         )
 
-    def predict_with_progress(self, iterator):
+    def batch_predict(self, iterator: Iterable[np.ndarray]) -> np.ndarray:
         predictions = []
 
         for batch in iterator:
