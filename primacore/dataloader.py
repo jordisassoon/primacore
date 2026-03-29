@@ -1,5 +1,8 @@
 import pandas as pd
-from typing import Callable, List, Optional
+from collections.abc import Callable, Sequence
+
+
+Transform = Callable[[pd.DataFrame], pd.DataFrame]
 
 
 def load_csv(filepath: str) -> pd.DataFrame:
@@ -7,9 +10,7 @@ def load_csv(filepath: str) -> pd.DataFrame:
     return pd.read_csv(filepath)
 
 
-def apply_transforms(
-    df: pd.DataFrame, transforms: List[Callable[[pd.DataFrame], pd.DataFrame]]
-) -> pd.DataFrame:
+def apply_transforms(df: pd.DataFrame, transforms: Sequence[Transform]) -> pd.DataFrame:
     """Apply a list of transform functions to a DataFrame."""
     for transform in transforms:
         df = transform(df)
@@ -18,7 +19,7 @@ def apply_transforms(
 
 def load_csv_with_transforms(
     filepath: str,
-    transforms: Optional[List[Callable[[pd.DataFrame], pd.DataFrame]]] = None,
+    transforms: Sequence[Transform] | None = None,
 ) -> pd.DataFrame:
     """Load a CSV file and apply custom transforms."""
     df = load_csv(filepath)
@@ -45,7 +46,7 @@ def drop_rows_with_all_zero(df: pd.DataFrame) -> pd.DataFrame:
 
 def drop_rows_with_all_nan(df: pd.DataFrame) -> pd.DataFrame:
     """Drop rows that contain only NaN values."""
-    return df.dropna(how='all')
+    return df.dropna(how="all")
 
 
 def l1_normalize_rows(df: pd.DataFrame) -> pd.DataFrame:

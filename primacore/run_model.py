@@ -7,7 +7,13 @@ from primacore.models.rf import RF
 from primacore.models.brt import BRT
 from primacore.models.mat import MAT
 from primacore.plots import scatter_predictions, line_predictions
-from primacore.dataloader import load_csv, load_csv_with_transforms, drop_rows_with_any_nan, drop_columns_with_all_zero, drop_rows_with_all_zero, drop_rows_with_all_nan, l1_normalize_rows
+from primacore.dataloader import (
+    load_csv_with_transforms,
+    drop_rows_with_any_nan,
+    drop_columns_with_all_zero,
+    drop_rows_with_all_zero,
+    l1_normalize_rows,
+)
 
 parser = argparse.ArgumentParser(description="Train and predict climate variables")
 parser.add_argument(
@@ -24,18 +30,29 @@ def main():
 
     climate = load_csv_with_transforms(
         os.path.join(data_dir, "synthetic_climate_data.csv"),
-        transforms=[drop_columns_with_all_zero, drop_rows_with_any_nan, drop_rows_with_all_zero],
+        transforms=[
+            drop_columns_with_all_zero,
+            drop_rows_with_any_nan,
+            drop_rows_with_all_zero,
+        ],
     )
     modern = load_csv_with_transforms(
         os.path.join(data_dir, "synthetic_modern_data.csv"),
-        transforms=[drop_columns_with_all_zero, drop_rows_with_any_nan, drop_rows_with_all_zero, l1_normalize_rows],
+        transforms=[
+            drop_columns_with_all_zero,
+            drop_rows_with_any_nan,
+            drop_rows_with_all_zero,
+            l1_normalize_rows,
+        ],
     )
     test = load_csv_with_transforms(
         os.path.join(data_dir, "synthetic_test_data.csv"),
         transforms=[l1_normalize_rows],
     )
 
-    test = test.drop(columns=[c for c in test.columns if c not in modern.columns], errors="ignore")
+    test = test.drop(
+        columns=[c for c in test.columns if c not in modern.columns], errors="ignore"
+    )
 
     # Merge training data on OBSNAME
     train = modern.merge(climate, on="OBSNAME")
