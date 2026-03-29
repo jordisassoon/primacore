@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.1.6](https://github.com/jordisassoon/primacore/compare/v0.1.5...v0.1.6) (2026-03-29)
+
+
+### Features
+
+* add readme to pypi and authors ([#93](https://github.com/jordisassoon/primacore/issues/93)) ([57c8ff4](https://github.com/jordisassoon/primacore/commit/57c8ff41ee36a30fff245b7d97fbfc1771676ab1))
+
+
+### Bug Fixes
+
+* name in authors ([#95](https://github.com/jordisassoon/primacore/issues/95)) ([65ab987](https://github.com/jordisassoon/primacore/commit/65ab987cf47b0508eace661f4e2a3a1c0b83887f))
+
 ## [0.1.5](https://github.com/jordisassoon/primacore/compare/v0.1.4...v0.1.5) (2026-03-29)
 
 
