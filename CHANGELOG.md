@@ -1,5 +1,22 @@
 # Changelog
 
+## [0.1.5](https://github.com/jordisassoon/primacore/compare/v0.1.4...v0.1.5) (2026-03-29)
+
+
+### Features
+
+* add docs workflow with sphinx ([#89](https://github.com/jordisassoon/primacore/issues/89)) ([734f8c3](https://github.com/jordisassoon/primacore/commit/734f8c36a1bd5d2fe8583b619536c32c904c5e32))
+* autogenerate doc workflow ([55527bf](https://github.com/jordisassoon/primacore/commit/55527bf72d1dcc272e621a8efb94d6f341015d1b))
+* autogenerate doc workflow ([6bc52a8](https://github.com/jordisassoon/primacore/commit/6bc52a81209a0e1d338d49d756a44f16b2385cb4))
+* dependabot ([#90](https://github.com/jordisassoon/primacore/issues/90)) ([e057760](https://github.com/jordisassoon/primacore/commit/e057760d6f335c10165d546cfd97fa04f2113b4e))
+
+
+### Bug Fixes
+
+* dependabot placement ([#91](https://github.com/jordisassoon/primacore/issues/91)) ([fbcf868](https://github.com/jordisassoon/primacore/commit/fbcf8684bdbb616e3ad54a1c4bddfbc86008f34a))
+* pull req ([#92](https://github.com/jordisassoon/primacore/issues/92)) ([0b581f6](https://github.com/jordisassoon/primacore/commit/0b581f6cf133d062d9b85616dae33783f1c163c3))
+* test and lint ([a1d6324](https://github.com/jordisassoon/primacore/commit/a1d63247347622d1b95f22e78ac856b4c0d9cb0a))
+
 ## [0.1.4](https://github.com/jordisassoon/primacore/compare/v0.1.3...v0.1.4) (2026-03-28)
 
 

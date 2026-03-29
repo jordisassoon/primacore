@@ -1,6 +1,6 @@
 [project]
 name = "primacore"
-version = "0.1.4"
+version = "0.1.5"
 authors = [{ name = "Jordi Sassoon", email = "jordisassoon@gmail.com" }]
 requires-python = ">=3.10"
 dependencies = [
