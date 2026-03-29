@@ -28,21 +28,28 @@ def load_csv_with_transforms(
 
 
 # Example transform functions
-def drop_nulls(df: pd.DataFrame) -> pd.DataFrame:
+def drop_rows_with_any_nan(df: pd.DataFrame) -> pd.DataFrame:
     """Drop rows with null values."""
-    return df.dropna()
+    return df.dropna(how="any")
 
 
-def lowercase_columns(df: pd.DataFrame) -> pd.DataFrame:
-    """Convert all column names to lowercase."""
-    df.columns = df.columns.str.lower()
-    return df
+def drop_columns_with_all_zero(df: pd.DataFrame) -> pd.DataFrame:
+    """Drop columns that contain only zero values."""
+    return df.loc[:, (df != 0).any(axis=0)]
 
 
-def filter_by_column(column: str, value) -> Callable[[pd.DataFrame], pd.DataFrame]:
-    """Return a transform function that filters by column value."""
+def drop_rows_with_all_zero(df: pd.DataFrame) -> pd.DataFrame:
+    """Drop rows that contain only zero values."""
+    return df[(df != 0).any(axis=1)]
 
-    def transform(df: pd.DataFrame) -> pd.DataFrame:
-        return df[df[column] == value]
 
-    return transform
+def drop_rows_with_all_nan(df: pd.DataFrame) -> pd.DataFrame:
+    """Drop rows that contain only NaN values."""
+    return df.dropna(how='all')
+
+
+def l1_normalize_rows(df: pd.DataFrame) -> pd.DataFrame:
+    """L1 normalize rows of a DataFrame."""
+    numeric = df.select_dtypes(include="number")
+    normalized = numeric.div(numeric.abs().sum(axis=1), axis=0)
+    return df.assign(**normalized)
