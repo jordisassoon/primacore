@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.7](https://github.com/jordisassoon/primacore/compare/v0.1.6...v0.1.7) (2026-03-29)
+
+
+### Bug Fixes
+
+* authors ([#96](https://github.com/jordisassoon/primacore/issues/96)) ([3cc39b3](https://github.com/jordisassoon/primacore/commit/3cc39b3df70799a1f21b202820be8469ad7c9b42))
+
 ## [0.1.6](https://github.com/jordisassoon/primacore/compare/v0.1.5...v0.1.6) (2026-03-29)
 
 
