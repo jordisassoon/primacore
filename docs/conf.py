@@ -4,15 +4,27 @@
 
 import sys
 from pathlib import Path
+import os
 
-# Add the parent directory to the path so we can import primacore
-sys.path.insert(0, str(Path(__file__).parent.parent))
+# Add project root and src/ to sys.path
+ROOT = os.path.abspath("..")  # primacore/
+SRC = os.path.join(ROOT, "primacore")  # primacore/primacore/
+sys.path.insert(0, SRC)
+
+def get_version_from_json():
+    import json
+
+    version_file = os.path.join(ROOT, ".release-please-manifest.json")
+    with open(version_file) as f:
+        data = json.load(f)
+    return data.get(".", "0.0.0")
 
 # -- Project information -------------------------------------------------------
 project = "primacore"
 copyright = "2024, Jordi Sassoon"
 author = "Jordi Sassoon"
-release = "0.1.4"
+release = get_version_from_json()
+version = ".".join(release.split(".")[:2])
 
 # -- General configuration -------------------------------------------------------
 extensions = [

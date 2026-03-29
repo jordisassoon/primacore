@@ -61,11 +61,11 @@ Quick Start
 API Reference
 =============
 
-.. autosummary::
-   :toctree: api/generated
-   :recursive:
+.. toctree::
+   :maxdepth: 1
+   :caption: API Reference
 
-   primacore.models
+   api/index
 
 Indices and tables
 ==================
