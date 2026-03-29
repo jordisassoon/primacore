@@ -1,7 +1,8 @@
 [project]
 name = "primacore"
 version = "0.1.5"
-authors = [{ name = "Jordi Sassoon", email = "jordisassoon@gmail.com" }]
+authors = [{ name = "Jordi Sassoon", email = "jordisassoon@gmail.com" }, { name = "Dael Sassoon", email = "dael.sassoon@gmail.com" }]
+readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
   "numpy",
