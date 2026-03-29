@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.1.8](https://github.com/jordisassoon/primacore/compare/v0.1.7...v0.1.8) (2026-03-29)
+
+
+### Features
+
+* add dataloader and transforms for most simple operations ([#102](https://github.com/jordisassoon/primacore/issues/102)) ([7a29c38](https://github.com/jordisassoon/primacore/commit/7a29c38964662df8d623fe01b07aaee597d928ca))
+* add dataloader and validation logic ([#100](https://github.com/jordisassoon/primacore/issues/100)) ([a1e0539](https://github.com/jordisassoon/primacore/commit/a1e05392deb872752a3e297cfbb140e1f94a8ae2))
+* add minimal working plotting ([#98](https://github.com/jordisassoon/primacore/issues/98)) ([57a4f7c](https://github.com/jordisassoon/primacore/commit/57a4f7c062cea2bc42fec133005429b3a684f0f9))
+* basic cross validation with spatiality (OBSNAME) disjoint sets ([#103](https://github.com/jordisassoon/primacore/issues/103)) ([9c85060](https://github.com/jordisassoon/primacore/commit/9c850605f7d14552f6b2d48eff6c7ac0fe964933))
+
 ## [0.1.7](https://github.com/jordisassoon/primacore/compare/v0.1.6...v0.1.7) (2026-03-29)
 
 
