@@ -18,7 +18,6 @@ dependencies = [
   "scikit-learn",
   "tqdm",
   "lightgbm",
-  "black",
   "plotly",
 ]
 

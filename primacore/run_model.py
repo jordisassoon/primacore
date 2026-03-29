@@ -41,7 +41,9 @@ def main():
 
     # Collect non-feature metadata from test data (e.g. Age, Depth, OBSNAME)
     metadata_cols = [c for c in test.columns if c not in feature_cols]
-    results = test[metadata_cols].copy() if metadata_cols else pd.DataFrame(index=test.index)
+    results = (
+        test[metadata_cols].copy() if metadata_cols else pd.DataFrame(index=test.index)
+    )
 
     # Train a model per target and predict
     for target in target_cols:
