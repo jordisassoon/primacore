@@ -6,7 +6,6 @@ import pandas as pd
 from primacore.models.rf import RF
 from primacore.models.brt import BRT
 from primacore.models.mat import MAT
-from primacore.plots import scatter_predictions, line_predictions
 from primacore.dataloader import (
     load_csv_with_transforms,
     drop_rows_with_any_nan,
