@@ -29,12 +29,15 @@ jobs:
         run: uv python install 3.11
       
       - name: Install dependencies
-        run: uv sync
+        run: uv sync --dev
+
+      - name: Install docs tooling in project env
+        run: uv run pip install pdoc
 
       - name: Generate API docs
         run: |
           mkdir -p docs/api
-          uv pdoc primacore -o docs/api
+          uv run pdoc primacore -o docs/api
 
       - name: Commit updated docs
         run: |
