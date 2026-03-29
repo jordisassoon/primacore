@@ -744,6 +744,7 @@ dependencies = [
 [package.dev-dependencies]
 dev = [
     { name = "mypy" },
+    { name = "pdoc" },
     { name = "pytest" },
     { name = "pytest-timeout" },
     { name = "pytest-vcr" },
@@ -752,9 +753,6 @@ dev = [
     { name = "shellcheck-py" },
     { name = "ty" },
     { name = "types-requests" },
-]
-docs = [
-    { name = "pdoc" },
 ]
 
 [package.metadata]
@@ -771,6 +769,7 @@ requires-dist = [
 [package.metadata.requires-dev]
 dev = [
     { name = "mypy", specifier = ">=1.18.2" },
+    { name = "pdoc", specifier = ">=15.0.4" },
     { name = "pytest", specifier = ">=8.4.2" },
     { name = "pytest-timeout", specifier = ">=2.4.0" },
     { name = "pytest-vcr", specifier = ">=1.0.2" },
@@ -780,7 +779,6 @@ dev = [
     { name = "ty", specifier = ">=0.0.14" },
     { name = "types-requests", specifier = ">=2.32.4.20260107" },
 ]
-docs = [{ name = "pdoc" }]
 
 [[package]]
 name = "pygments"

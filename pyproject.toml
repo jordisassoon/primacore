@@ -15,15 +15,16 @@ dependencies = [
 
 [dependency-groups]
 dev = [
-    "mypy>=1.18.2",
-    "pytest>=8.4.2",
-    "pytest-timeout>=2.4.0",
-    "pytest-vcr>=1.0.2",
-    "python-dotenv>=1.2.1",
-    "ruff>=0.14.3",
-    "shellcheck-py>=0.11.0.1",
-    "ty>=0.0.14",
-    "types-requests>=2.32.4.20260107",
+  "pdoc>=15.0.4",
+  "mypy>=1.18.2",
+  "pytest>=8.4.2",
+  "pytest-timeout>=2.4.0",
+  "pytest-vcr>=1.0.2",
+  "python-dotenv>=1.2.1",
+  "ruff>=0.14.3",
+  "shellcheck-py>=0.11.0.1",
+  "ty>=0.0.14",
+  "types-requests>=2.32.4.20260107",
 ]
 
 [build-system]
