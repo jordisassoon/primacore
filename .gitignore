@@ -205,7 +205,6 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
-data/ground_truth/
-out/
-*env/
-map*
+
+primacore/data/
+primacore/out/
