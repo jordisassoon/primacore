@@ -6,7 +6,6 @@ import pandas as pd
 from primacore.models.rf import RF
 from primacore.models.brt import BRT
 from primacore.models.mat import MAT
-from primacore.plots import scatter_predictions, line_predictions
 from primacore.dataloader import (
     load_csv_with_transforms,
     drop_rows_with_any_nan,
@@ -14,12 +13,13 @@ from primacore.dataloader import (
     drop_rows_with_all_zero,
     l1_normalize_rows,
 )
+from primacore.validation import spatial_cross_validation
 
 parser = argparse.ArgumentParser(description="Train and predict climate variables")
 parser.add_argument(
     "--model",
     choices=["MAT", "BRT", "RF"],
-    default="BRT",
+    default="MAT",
     help="Model type: MAT, BRT, or RF",
 )
 args = parser.parse_args()
@@ -75,21 +75,29 @@ def main():
 
     # Train a model per target and predict
     for target in target_cols:
+        # Perform spatial cross-validation on training data (optional, can be time-consuming)
+        groups = train["OBSNAME"]
+        cv_scores, mean_cv_score, std_cv_score = spatial_cross_validation(
+            model_cls(), X_train, train[target], groups, n_folds=5, scoring="r2"
+        )
+        print(f"Spatial CV scores for {target}: {cv_scores}")
+        print(f"Mean CV score: {mean_cv_score}, Std CV score: {std_cv_score}")
+
         model = model_cls()
         model.fit(X_train, train[target])
         results[target] = model.predict(X_test)
 
     print(results)
 
-    # Plot each predicted variable
-    x_col = metadata_cols[0] if metadata_cols else None
-    if x_col is None:
-        results["sample"] = results.index
-        x_col = "sample"
+    # # Plot each predicted variable
+    # x_col = metadata_cols[0] if metadata_cols else None
+    # if x_col is None:
+    #     results["sample"] = results.index
+    #     x_col = "sample"
 
-    for col in target_cols:
-        scatter_predictions(results, x_col, col, title=f"{args.model} - {col}")
-        line_predictions(results, x_col, col, title=f"{args.model} - {col}")
+    # for col in target_cols:
+    #     scatter_predictions(results, x_col, col, title=f"{args.model} - {col}")
+    #     line_predictions(results, x_col, col, title=f"{args.model} - {col}")
 
     return results
 
