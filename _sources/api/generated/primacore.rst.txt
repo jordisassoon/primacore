@@ -1,0 +1,53 @@
+primacore package
+=================
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   primacore.models
+
+Submodules
+----------
+
+primacore.dataloader module
+---------------------------
+
+.. automodule:: primacore.dataloader
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+primacore.plots module
+----------------------
+
+.. automodule:: primacore.plots
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+primacore.run\_model module
+---------------------------
+
+.. automodule:: primacore.run_model
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+primacore.validation module
+---------------------------
+
+.. automodule:: primacore.validation
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+Module contents
+---------------
+
+.. automodule:: primacore
+   :members:
+   :show-inheritance:
+   :undoc-members:

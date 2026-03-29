@@ -1,0 +1,37 @@
+primacore.models package
+========================
+
+Submodules
+----------
+
+primacore.models.brt module
+---------------------------
+
+.. automodule:: primacore.models.brt
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+primacore.models.mat module
+---------------------------
+
+.. automodule:: primacore.models.mat
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+primacore.models.rf module
+--------------------------
+
+.. automodule:: primacore.models.rf
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+Module contents
+---------------
+
+.. automodule:: primacore.models
+   :members:
+   :show-inheritance:
+   :undoc-members:
