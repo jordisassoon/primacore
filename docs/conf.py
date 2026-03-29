@@ -50,8 +50,8 @@ html_theme_options = {
 
 # -- Source file suffix -------------------------------------------------------
 source_suffix = {
-    ".rst": None,
-    ".md": "myst-nb",
+    ".rst": "restructuredtext",
+    ".md": "markdown",
 }
 
 # -- Intersphinx mapping -------------------------------------------------------
