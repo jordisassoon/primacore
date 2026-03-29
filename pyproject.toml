@@ -19,6 +19,7 @@ dependencies = [
   "tqdm",
   "lightgbm",
   "black",
+  "plotly",
 ]
 
 [dependency-groups]
