@@ -1,93 +1,134 @@
+import pytest
 import numpy as np
 import pandas as pd
-import pytest
-from sklearn.model_selection import GroupKFold
 
+from primacore.validation import (
+    spearman_rho,
+    pearson_r,
+    kge,
+    bias,
+    build_scorers,
+    spatial_cross_validation,
+)
 from primacore.models.rf import RF
-from primacore.validation import spatial_cross_validation
 
 
-@pytest.fixture()
-def regression_data():
-    rng = np.random.default_rng(42)
-    n_samples = 60
-    n_features = 3
-    n_groups = 6
+# ── Scorer tests ──────────────────────────────────────────────────────────────
 
-    X = pd.DataFrame(
-        rng.standard_normal((n_samples, n_features)), columns=["f1", "f2", "f3"]
-    )
-    y = pd.DataFrame(rng.standard_normal(n_samples), columns=["target"])
-    groups = pd.Series(np.repeat(np.arange(n_groups), n_samples // n_groups))
+
+def test_spearman_rho_perfect_correlation() -> None:
+    y_true = pd.Series([1, 2, 3, 4, 5])
+    y_pred = pd.Series([1, 2, 3, 4, 5])
+    assert spearman_rho(y_true, y_pred) == pytest.approx(1.0)
+
+
+def test_spearman_rho_returns_zero_for_nan() -> None:
+    y_true = pd.Series([1.0, 1.0, 1.0])
+    y_pred = pd.Series([1.0, 1.0, 1.0])
+    assert spearman_rho(y_true, y_pred) == 0.0
+
+
+def test_pearson_r_perfect_correlation() -> None:
+    y_true = pd.Series([1.0, 2.0, 3.0, 4.0, 5.0])
+    y_pred = pd.Series([2.0, 4.0, 6.0, 8.0, 10.0])
+    assert pearson_r(y_true, y_pred) == pytest.approx(1.0)
+
+
+def test_pearson_r_returns_zero_for_nan() -> None:
+    y_true = pd.Series([1.0, 1.0, 1.0])
+    y_pred = pd.Series([1.0, 1.0, 1.0])
+    assert pearson_r(y_true, y_pred) == 0.0
+
+
+def test_kge_perfect_prediction() -> None:
+    y_true = pd.Series([1.0, 2.0, 3.0, 4.0, 5.0])
+    y_pred = pd.Series([1.0, 2.0, 3.0, 4.0, 5.0])
+    assert kge(y_true, y_pred) == pytest.approx(1.0)
+
+
+def test_kge_handles_zero_std_and_mean() -> None:
+    y_true = pd.Series([0.0, 0.0, 0.0])
+    y_pred = pd.Series([1.0, 2.0, 3.0])
+    result = kge(y_true, y_pred)
+    assert np.isfinite(result)
+
+
+def test_bias_no_bias() -> None:
+    y_true = pd.Series([1.0, 2.0, 3.0])
+    y_pred = pd.Series([1.0, 2.0, 3.0])
+    assert bias(y_true, y_pred) == pytest.approx(0.0)
+
+
+def test_bias_positive() -> None:
+    y_true = pd.Series([1.0, 2.0, 3.0])
+    y_pred = pd.Series([2.0, 3.0, 4.0])
+    assert bias(y_true, y_pred) == pytest.approx(1.0)
+
+
+def test_build_scorers_returns_requested_keys() -> None:
+    scorers = build_scorers(["rmse", "r2", "pearson_r"])
+    assert set(scorers.keys()) == {"rmse", "r2", "pearson_r"}
+
+
+# ── Spatial cross-validation tests ────────────────────────────────────────────
+
+
+@pytest.fixture
+def cv_data() -> tuple[pd.DataFrame, pd.Series, pd.Series]:
+    rng = np.random.RandomState(42)
+    n = 100
+    X = pd.DataFrame(rng.rand(n, 5), columns=[f"f{i}" for i in range(5)])
+    y = pd.Series(rng.rand(n))
+    groups = pd.Series(np.repeat(np.arange(5), n // 5))
     return X, y, groups
 
 
-@pytest.fixture()
-def model():
-    return RF(n_estimators=10, random_state=0)
+def test_spatial_cv_returns_dataframe(cv_data) -> None:
+    X, y, groups = cv_data
+    model = RF(n_estimators=10, random_state=0)
+    scoring = build_scorers(["rmse", "r2"])
+
+    result = spatial_cross_validation(model, X, y, groups, scoring, n_folds=5)
+
+    assert isinstance(result, pd.DataFrame)
+    assert set(result.columns) == {"rmse", "r2"}
+    assert len(result) == 5
 
 
-def test_returns_scores_mean_and_std(model, regression_data):
-    """Return value is a tuple of (scores_array, mean, std)."""
-    X, y, groups = regression_data
-    scores, mean_score, std_score = spatial_cross_validation(model, X, y, groups)
+def test_spatial_cv_too_few_groups(cv_data) -> None:
+    X, y, _ = cv_data
+    groups = pd.Series(np.repeat([0, 1], len(y) // 2))
+    model = RF(n_estimators=10, random_state=0)
+    scoring = build_scorers(["rmse"])
 
-    assert isinstance(scores, np.ndarray)
-    assert isinstance(mean_score, float)
-    assert isinstance(std_score, float)
-
-
-def test_number_of_scores_matches_n_folds(model, regression_data):
-    """Length of scores array equals the requested number of folds."""
-    X, y, groups = regression_data
-
-    for n_folds in (3, 5):
-        scores, _, _ = spatial_cross_validation(model, X, y, groups, n_folds=n_folds)
-        assert len(scores) == n_folds
+    with pytest.raises(ValueError, match="Number of unique groups must be >= n_folds"):
+        spatial_cross_validation(model, X, y, groups, scoring, n_folds=5)
 
 
-def test_mean_and_std_are_consistent_with_scores(model, regression_data):
-    """Reported mean and std match np.mean / np.std of the raw scores."""
-    X, y, groups = regression_data
-    scores, mean_score, std_score = spatial_cross_validation(model, X, y, groups)
+def test_spatial_cv_custom_folds(cv_data) -> None:
+    X, y, groups = cv_data
+    model = RF(n_estimators=10, random_state=0)
+    scoring = build_scorers(["mae"])
 
-    assert mean_score == pytest.approx(scores.mean())
-    assert std_score == pytest.approx(scores.std())
+    result = spatial_cross_validation(model, X, y, groups, scoring, n_folds=3)
+
+    assert len(result) == 3
+    assert "mae" in result.columns
 
 
-def test_scoring_parameter_is_respected(model, regression_data):
-    """Different scoring metrics produce different score values."""
-    X, y, groups = regression_data
+def test_spatial_cv_hardcoded_results(cv_data) -> None:
+    X, y, groups = cv_data
+    model = RF(n_estimators=10, random_state=0)
+    scoring = build_scorers(["rmse", "r2"])
 
-    _, mean_mse, _ = spatial_cross_validation(
-        model, X, y, groups, scoring="neg_mean_squared_error"
+    result = spatial_cross_validation(model, X, y, groups, scoring, n_folds=5)
+
+    expected_rmse = np.array(
+        [-0.32980316, -0.25850395, -0.26847311, -0.35891507, -0.35157779]
     )
-    _, mean_r2, _ = spatial_cross_validation(model, X, y, groups, scoring="r2")
-
-    assert mean_mse != pytest.approx(mean_r2)
-
-
-def test_groups_do_not_leak_across_folds(regression_data):
-    """No spatial group appears in both train and test within a single fold."""
-    X, y, groups = regression_data
-    n_folds = 5
-    gkf = GroupKFold(n_splits=n_folds)
-
-    for train_idx, test_idx in gkf.split(X, y, groups):
-        train_groups = set(groups.iloc[train_idx])
-        test_groups = set(groups.iloc[test_idx])
-        assert train_groups.isdisjoint(test_groups)
-
-
-def test_deterministic_with_fixed_seed(regression_data):
-    """Same model seed and data produce identical scores across runs."""
-    X, y, groups = regression_data
-
-    scores_a, _, _ = spatial_cross_validation(
-        RF(n_estimators=10, random_state=0), X, y, groups
-    )
-    scores_b, _, _ = spatial_cross_validation(
-        RF(n_estimators=10, random_state=0), X, y, groups
+    expected_r2 = np.array(
+        [-0.49778018, 0.12580646, -0.11568117, -0.46708625, -0.28533652]
     )
 
-    np.testing.assert_array_equal(scores_a, scores_b)
+    np.testing.assert_allclose(result["rmse"].values, expected_rmse, rtol=1e-5)
+    np.testing.assert_allclose(result["r2"].values, expected_r2, rtol=1e-5)
