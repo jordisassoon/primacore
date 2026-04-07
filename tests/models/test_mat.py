@@ -1,4 +1,5 @@
 import pytest
+import pandas as pd
 import numpy as np
 from primacore.models.mat import MAT, chord_distance
 
@@ -33,3 +34,17 @@ def test_batch_predict(sample_data: tuple[np.ndarray, np.ndarray, np.ndarray]) -
 
     assert predictions.shape == (20,)
     assert isinstance(predictions, np.ndarray)
+
+
+def test_get_neighbors(sample_data: tuple[np.ndarray, np.ndarray, np.ndarray]) -> None:
+    """Test get_neighbors method."""
+    X_train, y_train, X_test = sample_data
+
+    mat = MAT(n_neighbors=3, metric=chord_distance)
+    mat.fit(X_train, y_train)
+
+    neighbors_df = mat.get_neighbors(pd.DataFrame(X_test))
+
+    assert isinstance(neighbors_df, pd.DataFrame)
+    assert set(neighbors_df.columns) == {"sample", "neighbor", "distance"}
+    assert len(neighbors_df) == 20 * 3  # 20 samples * 3 neighbors each

@@ -4,16 +4,16 @@ from sklearn.ensemble import RandomForestRegressor
 
 
 class RF(RandomForestRegressor):
-    def __init__(self, n_estimators=100, max_depth=None, random_state=None, **kwargs):
-        self.n_estimators = n_estimators
-        self.max_depth = max_depth
-        self.random_state = random_state
+    n_estimators: int
+    max_depth: int | None
+    random_state: int | None
 
+    def __init__(self, n_estimators=100, max_depth=None, random_state=None, **kwargs):
         # Initialize the parent RandomForestRegressor
         super().__init__(
-            n_estimators=self.n_estimators,
-            max_depth=self.max_depth,
-            random_state=self.random_state,
+            n_estimators=n_estimators,
+            max_depth=max_depth,
+            random_state=random_state,
             **kwargs,
         )
 

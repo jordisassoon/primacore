@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 from collections.abc import Callable, Iterable
 from sklearn.neighbors import KNeighborsRegressor
 
@@ -12,6 +13,9 @@ def chord_distance(x1: np.ndarray, x2: np.ndarray) -> float:
 
 
 class MAT(KNeighborsRegressor):
+    n_neighbors: int
+    metric: Callable[[np.ndarray, np.ndarray], float]
+
     def __init__(
         self,
         n_neighbors: int = 3,
@@ -29,3 +33,19 @@ class MAT(KNeighborsRegressor):
             predictions.extend(self.predict(batch))
 
         return np.array(predictions)
+
+    def get_neighbors(self, X: pd.DataFrame) -> pd.DataFrame:
+        distances, indices = self.kneighbors(X)
+
+        rows = []
+        for i in range(len(X)):
+            for k in range(self.n_neighbors):
+                rows.append(
+                    {
+                        "sample": i,
+                        "neighbor": indices[i, k],
+                        "distance": distances[i, k],
+                    }
+                )
+
+        return pd.DataFrame(rows)
