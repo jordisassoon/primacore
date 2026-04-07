@@ -4,6 +4,11 @@ from lightgbm import LGBMRegressor
 
 
 class BRT(LGBMRegressor):
+    n_estimators: int
+    learning_rate: float
+    max_depth: int
+    random_state: int
+
     def __init__(
         self,
         n_estimators: int = 100,
