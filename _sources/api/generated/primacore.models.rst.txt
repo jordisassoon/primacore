@@ -1,0 +1,15 @@
+﻿primacore.models
+================
+
+.. automodule:: primacore.models
+
+   
+.. rubric:: Modules
+
+.. autosummary::
+   :toctree:
+   :recursive:
+
+   brt
+   mat
+   rf

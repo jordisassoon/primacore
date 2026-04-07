@@ -1,0 +1,12 @@
+primacore.models.rf
+===================
+
+.. automodule:: primacore.models.rf
+
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      RF
+   

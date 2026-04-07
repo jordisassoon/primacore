@@ -1,0 +1,12 @@
+primacore.models.brt
+====================
+
+.. automodule:: primacore.models.brt
+
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      BRT
+   

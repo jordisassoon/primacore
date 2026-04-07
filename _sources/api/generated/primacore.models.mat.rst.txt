@@ -1,0 +1,19 @@
+primacore.models.mat
+====================
+
+.. automodule:: primacore.models.mat
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      chord_distance
+      squared_chord_distance
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      MAT
+   
