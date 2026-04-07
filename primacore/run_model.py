@@ -14,7 +14,12 @@ from primacore.dataloader import (
     l1_normalize_rows,
 )
 from primacore.validation import spatial_cross_validation, build_scorers
-from primacore.plots import scatter_predictions, line_predictions, spider_plot
+from primacore.plots import (
+    scatter_predictions,
+    line_predictions,
+    spider_plot,
+    plot_neighbors,
+)
 
 parser = argparse.ArgumentParser(description="Train and predict climate variables")
 parser.add_argument(
@@ -111,6 +116,31 @@ def main():
     for col in target_cols:
         scatter_predictions(results, x_col, col, title=f"{args.model} - {col}")
         line_predictions(results, x_col, col, title=f"{args.model} - {col}")
+
+    if isinstance(model, MAT):
+        neighbors_df = model.get_neighbors(test[feature_cols])
+
+        # leftovers are all train samples that are not neighbors of any test sample
+        neighbor_samples = set(neighbors_df["neighbor"])
+        leftover_indices = set(range(len(X_train))) - neighbor_samples
+
+        sources = [(x[0], x[1]) for x in X_test[feature_cols].values]
+        neighbors = [
+            (x[0], x[1])
+            for x in X_train.iloc[neighbors_df["neighbor"]][feature_cols].values
+        ]
+        leftovers = [
+            (x[0], x[1])
+            for x in X_train.iloc[list(leftover_indices)][feature_cols].values
+        ]
+
+        plot_neighbors(
+            sources=sources,
+            neighbors=neighbors,
+            distances=neighbors_df["distance"].values,
+            leftovers=leftovers,
+            title=f"{args.model} - Nearest Neighbors",
+        )
 
     return results
 

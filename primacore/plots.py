@@ -37,3 +37,41 @@ def spider_plot(df, title="Spider Plot"):
     )
     fig.show()
     return fig
+
+
+def plot_neighbors(
+    sources: list[tuple[float, float]],
+    neighbors: list[tuple[float, float]],
+    distances: list[float],
+    leftovers: list[tuple[float, float]],
+    title="Neighbor Distances",
+):
+    fig = go.Figure()
+
+    # Scatter plot with sources and neighbors connected, and leftovers also plotted in
+    for source, neighbor, distance in zip(sources, neighbors, distances):
+        fig.add_trace(
+            go.Scatter(
+                x=[source[0], neighbor[0]],
+                y=[source[1], neighbor[1]],
+                mode="lines+markers",
+                line=dict(color="cyan", width=2),
+                marker=dict(size=8, color="magenta"),
+                name=f"Distance: {distance:.2f}",
+            )
+        )
+
+    if leftovers:
+        fig.add_trace(
+            go.Scatter(
+                x=[o[0] for o in leftovers],
+                y=[o[1] for o in leftovers],
+                mode="markers",
+                marker=dict(size=8, color="red"),
+                name="Leftovers",
+            )
+        )
+
+    fig.update_layout(title=title, xaxis_title="X", yaxis_title="Y", **custom_theme)
+    fig.show()
+    return fig

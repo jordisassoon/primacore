@@ -1,7 +1,6 @@
 import pandas as pd
 from collections.abc import Callable, Sequence
 
-
 Transform = Callable[[pd.DataFrame], pd.DataFrame]
 
 
