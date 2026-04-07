@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.1.9](https://github.com/jordisassoon/primacore/compare/v0.1.8...v0.1.9) (2026-04-07)
+
+
+### Features
+
+* added spider plot and a bunch of validation metrics ([#104](https://github.com/jordisassoon/primacore/issues/104)) ([1d275f3](https://github.com/jordisassoon/primacore/commit/1d275f3b7a5b5f167a6571c3389027bb95989417))
+* get MAT neighbors ([#106](https://github.com/jordisassoon/primacore/issues/106)) ([a659825](https://github.com/jordisassoon/primacore/commit/a65982540676c4b135f41f3876875741c1908de3))
+
 ## [0.1.8](https://github.com/jordisassoon/primacore/compare/v0.1.7...v0.1.8) (2026-03-29)
 
 

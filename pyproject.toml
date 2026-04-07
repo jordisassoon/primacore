@@ -1,6 +1,6 @@
 [project]
 name = "primacore"
-version = "0.1.8"
+version = "0.1.9"
 authors = [
   { name = "Jordan Sassoon", email = "jordisassoon@gmail.com" },
   { name = "Dael Sassoon", email = "dael.sassoon@gmail.com" },
